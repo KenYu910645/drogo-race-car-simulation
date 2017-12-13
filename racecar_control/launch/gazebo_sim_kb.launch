@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<launch>
+
+  <remap from="/ackermann_cmd_mux/input/teleop" to="/racecar/ackermann_cmd_mux/input/teleop"/>
+
+  <include file="$(find racecar_gazebo)/launch/racecar_tunnel.launch"/>
+  <node name= "kb_commands" pkg="racecar_control" type="servo_commands.py">
+</node>
+  <include file="$(find racecar_control)/launch/teleop.launch"/>
+
+</launch>

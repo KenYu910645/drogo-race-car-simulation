@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+  
+  <arg name="use_rviz" default="true" />
+  <arg name="world_name" default="racecar_walker" />
+  <arg name="gui" default="false" />
+  <arg name="run_camera" default="false"/>
+<!--RVIZ -->
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find racecar_gazebo)/rviz_cfg/hypha_nav.rviz" if="$(arg use_rviz)"/>
+  <!--rosbag -->
+  <node pkg="rosbag" type="play" name="rosbag" args="$(find racecar_gazebo)/bag/vector_follower.bag"/>
+
+</launch>

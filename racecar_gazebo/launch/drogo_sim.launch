@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+
+  <arg name="world_name" default="racecar_walker" />
+  <arg name="gui" default="false" />
+
+  <!-- Gazebo World -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find racecar_gazebo)/worlds/$(arg world_name).world"/>
+    <arg name="gui" value="$(arg gui)"/>
+  </include>
+
+  <!-- urdf xml robot description loaded on the Parameter Server, converting the xacro into a proper urdf file-->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find racecar_description)/urdf/racecar.xacro'" />
+
+  <!-- push robot_description to factory and spawn robot in gazebo -->
+  <node name="racecar_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" args="-urdf -param robot_description -model racecar -z 0.05" />
+
+  <!-- TF setting -->
+  <include file="$(find drogo)/launch/includes/tf.launch.xml"/>
+
+<!--PCA9685 (fake)-->
+  <node name="odomToImu" pkg="racecar_gazebo" type="odomToImu"/>
+
+<!--Fake Odometry -->
+<node pkg="racecar_gazebo" name="gazebo_odometry_node" type="gazebo_odometry_lucky.py"/>
+
+</launch>
